@@ -1,0 +1,33 @@
+version: '3.6'
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: "internal-mosquitto"
+    restart: always
+    ports:
+      - 1884:1884
+      - 9001:9001
+    volumes:
+      - ./volumes/mosquitto/data:/mosquitto/data
+      - ./volumes/mosquitto/config:/mosquitto/config
+      - ./volumes/logs:/mosquitto/log
+    network_mode: bridge
+  internal-redis:
+    image: redis:latest
+    container_name: "internal-redis"
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - /data
+    network_mode: bridge
+  mongo:
+    image: mongo:latest
+    container_name: "internal-mongo"
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - /data/configdb
+      - /data/db
+    network_mode: bridge
